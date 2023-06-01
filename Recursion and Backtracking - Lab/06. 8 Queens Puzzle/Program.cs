@@ -1,85 +1,85 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace _06._8_Queens_Puzzle
+﻿namespace _06._8_Queens_Puzzle
 {
-    public class Program
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    public class EightQueensPuzzle
     {
-        private static HashSet<int> attackedRows = new HashSet<int>();
+        private const int Size = 8;
+
+        private static bool[][] board;
         private static HashSet<int> attackedCols = new HashSet<int>();
-        private static HashSet<int> attackedLeftDiagonals = new HashSet<int>();
-        private static HashSet<int> attackedRightDiagonals = new HashSet<int>();
+        private static HashSet<int> attackedLeftDiagonals = new HashSet<int>(); // row - col
+        private static HashSet<int> attackedRightDiagonals = new HashSet<int>();// row + col
+        //private static int solutionsFound; // check: 92 unique solutions
 
-        static void Main(string[] args)
+        public static void Main()
         {
-            var board = new bool[8, 8];
-
-            PutQueens(board, 0);
+            InitializeBoard();
+            PlaceQueen(0);
+            //Console.WriteLine(solutionsFound);
         }
 
-        private static void PutQueens(bool[,] board, int row)
+        private static void PlaceQueen(int row)
         {
-            if (row >= board.GetLength(0))
+            if (row == Size)
             {
-                PrintBoard(board);
-                return;
+                PrintSolution();
             }
-            for (int col = 0; col < board.GetLength(1); col++)
+            else
             {
-                if (CanPlaceQueen(row, col))
+                for (int col = 0; col < Size; col++)
                 {
-                    attackedRows.Add(row);
-                    attackedCols.Add(col);
-                    attackedLeftDiagonals.Add(row - col);
-                    attackedRightDiagonals.Add(row + col);
-
-                    board[col, row] = true;
-
-                    PutQueens(board, row + 1);
-
-                    attackedRows.Remove(row);
-                    attackedCols.Remove(col);
-                    attackedLeftDiagonals.Remove(row - col);
-                    attackedRightDiagonals.Remove(row + col);
-
-                    board[col, row] = false;
+                    if (CanPlaceQueen(row, col))
+                    {
+                        MarkAttackedPositions(row, col);
+                        PlaceQueen(row + 1);
+                        UnmarkAttackedPositions(row, col);
+                    }
                 }
             }
         }
 
-        private static void PrintBoard(bool[,] board)
+        private static void UnmarkAttackedPositions(int row, int col)
         {
-            StringBuilder sb = new StringBuilder();
+            board[row][col] = false;
+            attackedCols.Remove(col);
+            attackedLeftDiagonals.Remove(row - col);
+            attackedRightDiagonals.Remove(row + col);
+        }
 
-            for (int row = 0; row < board.GetLength(0); row++)
-            {
-                for (int col = 0; col < board.GetLength(1); col++)
-                {
-                    if (board[row, col] == true)
-                    {
-                        sb.Append("* ");
-                    }
-                    else
-                    {
-                        sb.Append("- ");
-                    }
-                }
-
-                sb.AppendLine();
-            }
-
-            sb.AppendLine();
-
-            Console.WriteLine(sb.ToString());
+        private static void MarkAttackedPositions(int row, int col)
+        {
+            board[row][col] = true;
+            attackedCols.Add(col);
+            attackedLeftDiagonals.Add(row - col);
+            attackedRightDiagonals.Add(row + col);
         }
 
         private static bool CanPlaceQueen(int row, int col)
+            => !attackedCols.Contains(col)
+            && !attackedLeftDiagonals.Contains(row - col)
+            && !attackedRightDiagonals.Contains(row + col);
+
+        private static void PrintSolution()
         {
-            return !attackedRows.Contains(row) &&
-                   !attackedCols.Contains(col) &&
-                   !attackedLeftDiagonals.Contains(row - col) &&
-                   !attackedRightDiagonals.Contains(row + col);
+            for (int row = 0; row < board.Length; row++)
+            {
+                Console.WriteLine(string.Join(" ", board[row].Select(e => e ? '*' : '-')));
+            }
+
+            Console.WriteLine();
+            //solutionsFound++;
+        }
+
+        private static void InitializeBoard()
+        {
+            board = new bool[Size][];
+            for (int row = 0; row < board.Length; row++)
+            {
+                board[row] = new bool[Size];
+            }
         }
     }
 }
