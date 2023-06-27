@@ -2,73 +2,68 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
-    public class Program
+    class Program
     {
-        private static List<int>[] graph;
-        private static bool[] visited;
-
         static void Main(string[] args)
         {
-            int nodes = int.Parse(Console.ReadLine());
+            int n = int.Parse(Console.ReadLine());
 
-            if (nodes <= 0 )
+            var graph = new List<List<int>>();
+
+            for (int i = 0; i < n; i++)
             {
-                return;
-            }
+                string[] input = Console.ReadLine().Split();
+                var children = new List<int>();
 
-            graph = new List<int>[nodes];
-            visited = new bool[nodes];
-
-            for (int i = 0; i < nodes; i++)
-            {
-                var line = Console.ReadLine();
-
-                if (string.IsNullOrEmpty(line) || string.IsNullOrWhiteSpace(line))
+                foreach (string child in input)
                 {
-                    graph[i] = new List<int>();
-                    continue;
+                    children.Add(int.Parse(child));
                 }
 
-                var children = line
-                    .Split(' ')
-                    .Select(int.Parse)
-                    .ToList();
-
-                graph[i] = children;
+                graph.Add(children);
             }
 
-            Dictionary<int, List<int>> results = new Dictionary<int, List<int>>();
+            var connectedComponents = FindConnectedComponents(graph);
 
-            for (int node = 0; node < graph.Length; node++)
+            foreach (var component in connectedComponents)
             {
-                var component = new List<int>();
-                DFS(node, component);
-                results[node] = component;
-            }
-
-            foreach (var component in results.Where(r => r.Value.Count > 0))
-            {
-                Console.WriteLine($" Connected components: {string.Join(" ", component.Value)}");
+                Console.WriteLine("Connected component: " + string.Join(" ", component));
             }
         }
 
-        private static void DFS(int node, List<int> components)
+        static List<List<int>> FindConnectedComponents(List<List<int>> graph)
         {
-            if (visited[node])
+            int n = graph.Count;
+            var visited = new bool[n];
+            var components = new List<List<int>>();
+
+            for (int i = 0; i < n; i++)
             {
-                return;
+                if (!visited[i])
+                {
+                    var component = new List<int>();
+                    DFS(graph, i, visited, component);
+                    components.Add(component);
+                }
             }
 
+            return components;
+        }
+
+        static void DFS(List<List<int>> graph, int node, bool[] visited, List<int> component)
+        {
             visited[node] = true;
+            component.Add(node);
 
-            foreach (var child in graph[node])
+            foreach (int child in graph[node])
             {
-                DFS(child, components);
+                if (!visited[child])
+                {
+                    DFS(graph, child, visited, component);
+                }
             }
-
-            components.Add(node);
         }
     }
+
 }
