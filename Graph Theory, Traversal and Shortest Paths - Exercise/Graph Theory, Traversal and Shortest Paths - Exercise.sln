@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01. Distance Between Vertices", "01. Distance Between Vertices\01. Distance Between Vertices.csproj", "{82DC93B9-9696-4C47-BCA3-F052796185CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02. Areas in Matrix", "02. Areas in Matrix\02. Areas in Matrix.csproj", "{447A4A10-7B32-4737-846A-C7FA925B7546}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82DC93B9-9696-4C47-BCA3-F052796185CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{82DC93B9-9696-4C47-BCA3-F052796185CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{82DC93B9-9696-4C47-BCA3-F052796185CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{82DC93B9-9696-4C47-BCA3-F052796185CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{447A4A10-7B32-4737-846A-C7FA925B7546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{447A4A10-7B32-4737-846A-C7FA925B7546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{447A4A10-7B32-4737-846A-C7FA925B7546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{447A4A10-7B32-4737-846A-C7FA925B7546}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D0A7B513-31D8-4F3A-A76B-AA2CE607877C}
+	EndGlobalSection
+EndGlobal
